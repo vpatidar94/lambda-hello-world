@@ -130,3 +130,5 @@ docs
 # Custom exclusions
 .husky
 .env
+
+test.js

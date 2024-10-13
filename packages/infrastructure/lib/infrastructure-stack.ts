@@ -29,7 +29,7 @@ export class InfrastructureStack extends cdk.Stack {
         // Add a new Lambda for serving Swagger
         const swaggerLambda = new Function(this, 'SwaggerHandler', {
             runtime: Runtime.NODEJS_20_X,
-            handler: 'api-docs.handler', 
+            handler: 'apiDocs.handler', 
             code: Code.fromAsset(fnPath),
         });
 
