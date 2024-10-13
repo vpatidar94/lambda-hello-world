@@ -10,7 +10,7 @@ const options = {
         },
         servers: [
             {
-                url: 'https://4z3rx17z62.execute-api.us-east-1.amazonaws.com/prod', 
+                url: 'https://itfgmgwazh.execute-api.us-east-1.amazonaws.com/prod', 
             },
         ],
     },

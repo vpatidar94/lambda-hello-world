@@ -8,20 +8,39 @@ export class InfrastructureStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props?: cdk.StackProps) {
         super(scope, id, props);
 
-        const lambdaFunction = new Function(this, 'LambdaFunction', {
+        const fnPath = path.join(__dirname, '../../lambda-function/build/src');
+
+        const greetingLambda = new Function(this, 'GreetingHandler', {
             runtime: Runtime.NODEJS_20_X,
             handler: 'index.handler',
-            code: Code.fromAsset(path.join(__dirname, '../../lambda-function/build')),
+            code: Code.fromAsset(fnPath),
         });
 
-        const api = new apigateway.RestApi(this, 'Greeting API', {
+        const greetingApi = new apigateway.RestApi(this, 'Greeting API', {
             restApiName: 'Greeting API',
         });
 
-        const apiResource = api.root.addResource('hello');  // Add '/abc' to the API
+        const greetingApiResource = greetingApi.root.addResource('hello');
 
-        const getSwaggerSpec = new apigateway.LambdaIntegration(lambdaFunction);
-        apiResource.addMethod('GET', getSwaggerSpec);  // GET /abc serves the Swagger JSON
+        const getGreeting = new apigateway.LambdaIntegration(greetingLambda);
+        greetingApiResource.addMethod('GET', getGreeting);
+
+
+        // Add a new Lambda for serving Swagger
+        const swaggerLambda = new Function(this, 'SwaggerHandler', {
+            runtime: Runtime.NODEJS_20_X,
+            handler: 'api-docs.handler', 
+            code: Code.fromAsset(fnPath),
+        });
+
+        const swaggerApi = new apigateway.RestApi(this, 'SwaggerApi', {
+            restApiName: 'Swagger Documentation API',
+        });
+
+        const swaggerApiResource = swaggerApi.root.addResource('api-docs');
+
+        const getSwaggerSpec = new apigateway.LambdaIntegration(swaggerLambda);
+        swaggerApiResource.addMethod('GET', getSwaggerSpec);
 
     }
 }
