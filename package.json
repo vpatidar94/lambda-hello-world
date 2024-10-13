@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "workspaces": [
+    "packages/lambda-function",
+    "packages/infrastructure"
+  ],
+  "scripts": {
+    "bootstrap": "cdk bootstrap",
+    "build": "yarn workspace lambda-function build",
+    "clean": "yarn workspace lambda-function clean && yarn workspace infrastructure clean",
+    "deploy": "yarn workspace infrastructure deploy",
+    "lint": "yarn workspaces run lint",
+    "test": "yarn workspace lambda-function test"
+  }
+}
