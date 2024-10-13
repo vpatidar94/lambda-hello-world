@@ -37,10 +37,8 @@ export class InfrastructureStack extends cdk.Stack {
             restApiName: 'Swagger Documentation API',
         });
 
-        const swaggerApiResource = swaggerApi.root.addResource('api-docs');
-
         const getSwaggerSpec = new apigateway.LambdaIntegration(swaggerLambda);
-        swaggerApiResource.addMethod('GET', getSwaggerSpec);
+        swaggerApi.root.addMethod('GET', getSwaggerSpec);
 
     }
 }
