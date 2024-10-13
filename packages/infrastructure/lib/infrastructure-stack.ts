@@ -8,7 +8,7 @@ export class InfrastructureStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props?: cdk.StackProps) {
         super(scope, id, props);
 
-        const fnPath = path.join(__dirname, '../../lambda-function/build/src');
+        const fnPath = path.join(__dirname, '../../lambda-function/build');
 
         const greetingLambda = new Function(this, 'GreetingHandler', {
             runtime: Runtime.NODEJS_20_X,
