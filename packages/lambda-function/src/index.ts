@@ -8,6 +8,37 @@ interface HelloResponse {
     message: string;
 }
 
+/**
+ * @swagger
+ * /hello:
+ *   get:
+ *     summary: Returns a greeting with default name
+ *     responses:
+ *       200:
+ *         description: A successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Hello, World
+ * /hello?name=John:
+ *   get:
+ *     summary: Returns a greeting with name
+ *     responses:
+ *       200:
+ *         description: A successful response
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Hello, John
+ */
 export const handler: APIGatewayProxyHandler = async (
     event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {

@@ -1,8 +1,8 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { LambdaRestApi } from 'aws-cdk-lib/aws-apigateway';
 import { Runtime, Function, Code } from 'aws-cdk-lib/aws-lambda';
 import * as path from 'path';
+import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 
 export class InfrastructureStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -14,8 +14,14 @@ export class InfrastructureStack extends cdk.Stack {
             code: Code.fromAsset(path.join(__dirname, '../../lambda-function/build')),
         });
 
-        new LambdaRestApi(this, 'Endpoint', {
-            handler: lambdaFunction
+        const api = new apigateway.RestApi(this, 'Greeting API', {
+            restApiName: 'Greeting API',
         });
+
+        const apiResource = api.root.addResource('hello');  // Add '/abc' to the API
+
+        const getSwaggerSpec = new apigateway.LambdaIntegration(lambdaFunction);
+        apiResource.addMethod('GET', getSwaggerSpec);  // GET /abc serves the Swagger JSON
+
     }
 }
