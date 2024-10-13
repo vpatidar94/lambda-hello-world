@@ -31,7 +31,11 @@ jobs:
 
       - name: Install AWS CDK CLI
         run: |
-          yarn global add aws-cdk    
+          yarn global add aws-cdk  
+
+      - name: Add node_modules to build
+        run: |
+          zip -r function.zip build/ node_modules/      
 
       - name: Deploy with AWS CDK
         run: |
